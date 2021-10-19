@@ -49,6 +49,7 @@ function App() {
           sideImage={sideImage3}
           products={productList3}
         />
+        <div><h3><b style={{color:'red'}}>合作企业部分待开发。。。。。</b></h3></div>
       </div>
       <Footer/>      
     </div>

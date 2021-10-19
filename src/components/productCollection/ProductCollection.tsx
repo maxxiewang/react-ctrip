@@ -12,6 +12,7 @@ interface PropsType {
 export const ProductCollection:React.FC<PropsType> = ({title,sideImage,products})=>{
   return (
     <div className={styles.content}>
+      {/* Divider主要就是用于切害页面 */}
       <Divider orientation='left'>{title}</Divider>
       <Row>
         <Col span={4}>
