@@ -1,7 +1,8 @@
 import React from "react";
 import { Image, Typography } from "antd";
+import {withRouter, RouteComponentProps} from 'react-router-dom'
 
-interface PropsType {
+interface PropsType extends RouteComponentProps{
     id: string | number;
     size: "large" | "small";
     imageSrc: string;
@@ -9,9 +10,11 @@ interface PropsType {
     title: string;
 }
 
-export const ProductImage: React.FC<PropsType> = ({id, size, imageSrc, price, title}) => {
+const ProductImageComponent: React.FC<PropsType> = ({id, size, imageSrc, price, title,
+  history,location,match}) => {
+    /* history,location,match 这三个是通过withRouter传递过来的 */
     return (
-      <>{/* 外部包裹这个玩意是干嘛的 */}
+      <div onClick={()=> history.push(`detail/${id}`)}>
         {size === "large" ? (
           <Image src={imageSrc} height={285} width={490} />
         ) : (
@@ -25,6 +28,8 @@ export const ProductImage: React.FC<PropsType> = ({id, size, imageSrc, price, ti
             ¥ {price} 起
           </Typography.Text>
         </div>
-      </>
+      </div>
     );
 }
+
+export const ProductImage = withRouter(ProductImageComponent)

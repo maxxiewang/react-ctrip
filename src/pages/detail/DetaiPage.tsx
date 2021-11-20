@@ -7,7 +7,7 @@ interface MatchParams {
 
 /* 泛型的泛型 */
 export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props)=>{
-
+  console.log('DetailPage--props',props)
   return (
     <h1>Detail，路线ID为{props.match.params.touristRouteId}</h1>
   )
