@@ -3,14 +3,14 @@ import styles from './Header.module.css'
 import logo from '../../assets/logo.svg';
 import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
-import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router';
+import { useHistory } from 'react-router';
 
 export const Header:React.FC = ()=>{
   /* 函数式组中使用hooks传递路由数据 */
   const history = useHistory()
-  const location = useLocation()
-  const params = useParams()
-  const match = useRouteMatch()
+  // const location = useLocation()
+  // const params = useParams()
+  // const match = useRouteMatch()
   
   return (
     <div className={styles["app-header"]}>
