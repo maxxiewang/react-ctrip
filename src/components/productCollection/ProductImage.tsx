@@ -12,7 +12,10 @@ interface PropsType extends RouteComponentProps{
 
 const ProductImageComponent: React.FC<PropsType> = ({id, size, imageSrc, price, title,
   history,location,match}) => {
-    /* history,location,match 这三个是通过withRouter传递过来的 */
+    /* 
+      history,location,match 这三个是通过withRouter传递过来的 
+    */
+    
     return (
       <div onClick={()=> history.push(`detail/${id}`)}>
         {size === "large" ? (
