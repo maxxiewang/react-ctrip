@@ -6,10 +6,14 @@ import sideImage from '../../assets/images/sider_2019_12-09.png';
 import sideImage2 from '../../assets/images/sider_2019_02-04.png';
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png';
 import styles from './HomePage.module.css'
+import {withTranslation , WithTranslation} from 'react-i18next'
 
 
-export class HomePage extends Component {
+class HomePageComponent extends Component<WithTranslation> {
   render() {
+    // 在使用 i18n时，需要先传入i18n的TS定义，即前面的范型WithTranslation
+    // t为一个函数 ， 在模板时，即直接用t()使用
+    const {t} = this.props
     return (
       <div>
         <Header/>
@@ -26,7 +30,7 @@ export class HomePage extends Component {
       <ProductCollection
           title={
             <Typography.Title level={3} type="warning">
-              热门推荐
+              {t('home_page.hot_recommended')}
             </Typography.Title>
           }
           sideImage={sideImage}
@@ -35,7 +39,7 @@ export class HomePage extends Component {
         <ProductCollection
           title={
             <Typography.Title level={3} type="danger">
-              新品上市
+              {t('home_page.new_arrival')}
             </Typography.Title>
           }
           sideImage={sideImage2}
@@ -44,7 +48,7 @@ export class HomePage extends Component {
         <ProductCollection
           title={
             <Typography.Title level={3} type="success">
-              国内游推荐
+              {t('home_page.domestic_travel')}
             </Typography.Title>
           }
           sideImage={sideImage3}
@@ -57,3 +61,5 @@ export class HomePage extends Component {
     )
   }
 }
+
+export const HomePage = withTranslation()(HomePageComponent) // 连续两个小括号
