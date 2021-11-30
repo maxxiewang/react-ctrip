@@ -56,6 +56,7 @@ class HeaderComponent extends React.Component<
   //     language: storeState.language,
   //     languageList: storeState.languageList,
   //   }
+  //   store订阅
   //   store.subscribe(this.handleStoreChange)
   // }
 
