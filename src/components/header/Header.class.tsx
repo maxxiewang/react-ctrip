@@ -43,10 +43,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 // 接口state放在组件范型的第二个参数
 // <RouteComponentProps & WithTranslation,State> 连接i18n的TypeScript类型定义
 class HeaderComponent extends React.Component<
-  RouteComponentProps &
-    WithTranslation &
-    ReturnType<typeof mapStateToPorps> &
-    ReturnType<typeof mapDispatchToProps>
+  RouteComponentProps & // react-router 路由props类型
+    WithTranslation & // i18n props类型
+    ReturnType<typeof mapStateToPorps> & // redux store 映射类型
+    ReturnType<typeof mapDispatchToProps> // redux dispatch 映射类型
 > {
   // constructor(props) {
   //   super(props)
@@ -60,6 +60,7 @@ class HeaderComponent extends React.Component<
   //   store.subscribe(this.handleStoreChange)
   // }
 
+  // 原来的store订阅处理函数
   handleStoreChange = () => {
     const storeState = store.getState()
     this.setState({
@@ -72,14 +73,18 @@ class HeaderComponent extends React.Component<
     // console.log('e..',e)
     // this.setState({language:e.key})  // 原来的直接修改state的方法
     if (e.key === 'new') {
-      const action = addLanguageActionCreator('日语', 'Jap')
-      console.log('添加新语言')
-      store.dispatch(action)
+      // const action = addLanguageActionCreator('日语', 'Jap')
+      // console.log('添加新语言')
+      // store.dispatch(action)
+
+      // 新的处理函数
+      this.props.addLanguage('日语', 'Jap')
     } else {
       // 1、先创建更新数据的action
-      const action = changeLanguageActionCreator(e.key)
+      // const action = changeLanguageActionCreator(e.key)
       // 2、向store去dispatch这个action
-      store.dispatch(action)
+      // store.dispatch(action)
+      this.props.changeLanguage(e.key)
     }
   }
 
