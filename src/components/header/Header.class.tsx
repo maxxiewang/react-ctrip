@@ -21,8 +21,8 @@ import { Dispatch } from 'redux'
 // 为了react-redux中的connect使用
 const mapStateToPorps = (state: RootState) => {
   return {
-    language: state.language,
-    languageList: state.languageList,
+    language: state.language.language,
+    languageList: state.language.languageList,
   }
 }
 
@@ -64,8 +64,8 @@ class HeaderComponent extends React.Component<
   handleStoreChange = () => {
     const storeState = store.getState()
     this.setState({
-      language: storeState.language,
-      languageList: storeState.languageList,
+      language: storeState.language.language,
+      languageList: storeState.language.languageList,
     })
   }
 

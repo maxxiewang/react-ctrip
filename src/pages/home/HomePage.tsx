@@ -7,7 +7,7 @@ import {
   ProductCollection,
 } from '../../components'
 import { Row, Col, Typography, Spin } from 'antd'
-import { productList1, productList2, productList3 } from './mockups'
+// import { productList1, productList2, productList3 } from './mockups'
 import sideImage from '../../assets/images/sider_2019_12-09.png'
 import sideImage2 from '../../assets/images/sider_2019_02-04.png'
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
@@ -48,10 +48,13 @@ class HomePageComponent extends Component<WithTranslation, State> {
       )
       this.setState({
         productList: data.data,
+        loading: false,
+        error: null,
       })
     } catch (error: any) {
       this.setState({
         error: error.messsage,
+        loading: false,
       })
     }
   }
@@ -60,7 +63,23 @@ class HomePageComponent extends Component<WithTranslation, State> {
     // 在使用 i18n时，需要先传入i18n的TS定义，即前面的范型WithTranslation
     // t为一个函数 ， 在模板时，即直接用t()使用
     const { t } = this.props
-    const { productList } = this.state
+    const { productList, loading, error } = this.state
+    // 转菊花
+    if (loading) {
+      return (
+        <Spin
+          size="large"
+          style={{
+            marginTop: 200,
+            margin: '0 auto',
+            width: '100%',
+          }}
+        />
+      )
+    }
+    if (error) {
+      return <div>网络错误</div>
+    }
     return (
       <div>
         <Header />
@@ -81,7 +100,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage}
-            products={productList1}
+            products={productList[0].touristRoutes}
           />
           <ProductCollection
             title={
@@ -90,7 +109,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage2}
-            products={productList2}
+            products={productList[1].touristRoutes}
           />
           <ProductCollection
             title={
@@ -99,7 +118,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage3}
-            products={productList3}
+            products={productList[2].touristRoutes}
           />
           <div>
             <h3>
