@@ -34,8 +34,7 @@ export class HomePage extends Component<State> {
     })
   }
   render() {
-    const { productList } = this.state
-    console.log('xx>>', productList)
+    // console.log('xx>>', productList)
     return (
       <div>
         <Header />
