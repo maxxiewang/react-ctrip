@@ -13,12 +13,14 @@ import sideImage2 from '../../assets/images/sider_2019_02-04.png'
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
 import styles from './HomePage.module.css'
 import axios from 'axios'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { t } from 'i18next'
 
 // 给组件的state定义接口
 interface State {
   productList: any[]
 }
-export class HomePage extends Component<State> {
+class HomePageComponent extends Component<WithTranslation, State> {
   constructor(props) {
     super(props)
     this.state = {
@@ -35,6 +37,7 @@ export class HomePage extends Component<State> {
   }
   render() {
     // console.log('xx>>', productList)
+    // const { t } = this.props
     return (
       <div>
         <Header />
@@ -51,7 +54,7 @@ export class HomePage extends Component<State> {
           <ProductCollection
             title={
               <Typography.Title level={3} type="warning">
-                热门推荐
+                {t('home_page.hot_recommended')}
               </Typography.Title>
             }
             sideImage={sideImage}
@@ -60,7 +63,7 @@ export class HomePage extends Component<State> {
           <ProductCollection
             title={
               <Typography.Title level={3} type="danger">
-                新品上市
+                {t('home_page.new_arrival')}
               </Typography.Title>
             }
             sideImage={sideImage2}
@@ -69,7 +72,7 @@ export class HomePage extends Component<State> {
           <ProductCollection
             title={
               <Typography.Title level={3} type="success">
-                国内游推荐
+                {t('home_page.domestic_travel')}
               </Typography.Title>
             }
             sideImage={sideImage3}
@@ -86,3 +89,11 @@ export class HomePage extends Component<State> {
     )
   }
 }
+
+export default HomePageComponent
+
+// 这是一个正常注释
+//? 表求有点疑问
+//todo 这是一个待办
+//! 这里面就是使用with高阶函数来实现语言配置的注入
+export const HomePage = withTranslation()(HomePageComponent)
