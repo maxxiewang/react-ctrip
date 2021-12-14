@@ -6,7 +6,7 @@ import { GlobalOutlined } from '@ant-design/icons'
 // RouteComponentProps， 路由的typeScrpit定义
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import store from '../../redux/store'
-import { LanguageState } from '../../redux/languageReducer'
+import { LanguageState } from '../../redux/language/languageReducer'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next' //! 所以是在这里面引入这个t函数可以，在props里面也可以解构这个t函数
 
