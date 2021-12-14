@@ -20,13 +20,42 @@ class HeaderComponent extends Component<RouteComponentProps, State> {
       languageList: storeState.languageList,
     }
   }
+  changeLanguage = (e) => {
+    // console.log('e>>>>>', e.key)
+    // 定义这个action
+    if (e.key === 'addLanguage') {
+      const action = {
+        type: 'add_language',
+        payload: {
+          code: 'jap',
+          name: '日语',
+        },
+      }
+      store.dispatch(action)
+    } else {
+      const action = {
+        type: 'change_language',
+        payload: e.key,
+      }
+      store.dispatch(action)
+    }
+  }
+  componentDidMount() {
+    store.subscribe(() => {
+      const storeState = store.getState()
+      this.setState({
+        language: storeState.language,
+        languageList: storeState.languageList,
+      })
+    })
+  }
   render() {
     /* 
       因为使用了withRouter，利用props里，可以操作history等路由相关操作
     */
     const { history } = this.props
     const { languageList, language } = this.state
-    console.log('languageList>>', languageList)
+
     return (
       <div className={styles['app-header']}>
         {/* top-header */}
@@ -36,15 +65,16 @@ class HeaderComponent extends Component<RouteComponentProps, State> {
             <Dropdown.Button
               style={{ marginLeft: 15 }}
               overlay={
-                <Menu>
+                <Menu onClick={this.changeLanguage}>
                   {languageList.map((item) => {
                     return <Menu.Item key={item.code}>{item.name}</Menu.Item>
                   })}
+                  <Menu.Item key={'addLanguage'}>添加新语言</Menu.Item>
                 </Menu>
               }
               icon={<GlobalOutlined />}
             >
-              {language === 'zh' ? '简中' : 'eng'}
+              {language}
             </Dropdown.Button>
             <Button.Group className={styles['button-group']}>
               <Button onClick={() => history.push('register')}>注册</Button>
