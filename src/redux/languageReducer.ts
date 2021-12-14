@@ -11,7 +11,7 @@ const defaultState: LanguageState = {
   language: 'zh',
   languageList: [
     { name: '中文', code: 'zh' },
-    { name: 'Eng', code: 'eng' },
+    { name: 'Eng', code: 'en' },
     { name: 'FR', code: 'fr' }
   ]
 }
