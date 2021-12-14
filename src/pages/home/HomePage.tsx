@@ -36,8 +36,8 @@ class HomePageComponent extends Component<WithTranslation, State> {
     })
   }
   render() {
-    // console.log('xx>>', productList)
     // const { t } = this.props
+    // console.log('t??', t) // 直接就可以得到这个t函数
     return (
       <div>
         <Header />

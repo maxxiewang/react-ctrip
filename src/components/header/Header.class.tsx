@@ -7,11 +7,17 @@ import { GlobalOutlined } from '@ant-design/icons'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import store from '../../redux/store'
 import { LanguageState } from '../../redux/languageReducer'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { t } from 'i18next' //! 所以是在这里面引入这个t函数可以，在props里面也可以解构这个t函数
 
 // 定义组件state的接口，利用接口继承，保留(组件继承的方法会深度绑定store的类型，有利有弊)
 interface State extends LanguageState {}
 
-class HeaderComponent extends Component<RouteComponentProps, State> {
+//! 注意这个范型写法
+class HeaderComponent extends Component<
+  RouteComponentProps & WithTranslation,
+  State
+> {
   constructor(props) {
     super(props)
     const storeState = store.getState()
@@ -61,7 +67,7 @@ class HeaderComponent extends Component<RouteComponentProps, State> {
         {/* top-header */}
         <div className={styles['top-header']}>
           <div className={styles.inner}>
-            <Typography.Text>Make travel better</Typography.Text>
+            <Typography.Text>{t('header.slogan')}</Typography.Text>
             <Dropdown.Button
               style={{ marginLeft: 15 }}
               overlay={
@@ -77,8 +83,12 @@ class HeaderComponent extends Component<RouteComponentProps, State> {
               {language}
             </Dropdown.Button>
             <Button.Group className={styles['button-group']}>
-              <Button onClick={() => history.push('register')}>注册</Button>
-              <Button onClick={() => history.push('signIn')}>登陆</Button>
+              <Button onClick={() => history.push('register')}>
+                {t('header.register')}
+              </Button>
+              <Button onClick={() => history.push('signIn')}>
+                {t('header.signin')}
+              </Button>
             </Button.Group>
           </div>
         </div>
@@ -120,4 +130,4 @@ class HeaderComponent extends Component<RouteComponentProps, State> {
     )
   }
 }
-export const Header = withRouter(HeaderComponent)
+export const Header = withTranslation()(withRouter(HeaderComponent))
