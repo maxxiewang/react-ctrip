@@ -9,6 +9,10 @@ import store from '../../redux/store'
 import { LanguageState } from '../../redux/language/languageReducer'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next' //! 所以是在这里面引入这个t函数可以，在props里面也可以解构这个t函数
+import {
+  changeLanguageActionCreator,
+  addLanguageActionCreator,
+} from '../../redux/language/languageActions'
 
 // 定义组件state的接口，利用接口继承，保留(组件继承的方法会深度绑定store的类型，有利有弊)
 interface State extends LanguageState {}
@@ -30,19 +34,21 @@ class HeaderComponent extends Component<
     // console.log('e>>>>>', e.key)
     // 定义这个action
     if (e.key === 'addLanguage') {
-      const action = {
-        type: 'add_language',
-        payload: {
-          code: 'jap',
-          name: '日语',
-        },
-      }
+      const action = addLanguageActionCreator('jap', '日语')
+      // const action = {
+      //   type: 'add_language',
+      //   payload: {
+      //     code: 'jap',
+      //     name: '日语',
+      //   },
+      // }
       store.dispatch(action)
     } else {
-      const action = {
-        type: 'change_language',
-        payload: e.key,
-      }
+      // const action = {
+      //   type: 'change_language',
+      //   payload: e.key,
+      // }
+      const action = changeLanguageActionCreator(e.key)
       store.dispatch(action)
     }
   }

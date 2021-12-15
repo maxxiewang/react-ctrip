@@ -1,6 +1,6 @@
 // 用于i18n的语言切换
 import i18n from 'i18next'
-import { CHANGE_LANGUAGE, ADD_LANGUAGE } from './languageActions'
+import { CHANGE_LANGUAGE, ADD_LANGUAGE, languageActionTypes } from './languageActions'
 // 在redux中，不管是reducer还是action都是纯函数
 // reducer 就是数据处理的过程
 export interface LanguageState {
@@ -21,7 +21,7 @@ const defaultState: LanguageState = {
  关于 React 在导出之前给变量赋一个箭头函数作为模块default import/no-anonymous-default-export 的报错问题
  改为 export default fn 这种形式
  */
-const fn = (state = defaultState, action) => {
+const fn = (state = defaultState, action: languageActionTypes) => {
 
   //! 这里面需要注意, 不要去修改原来的state
   switch (action.type) {
