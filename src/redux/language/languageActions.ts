@@ -1,5 +1,20 @@
 //! 加上S，因为文件可以会涉及处理多个actions
 
+/* 
+  原来在组件中action的类型是
+  const action = {
+        type: 'add_language',
+        payload: {
+          code: 'jap',
+          name: '日语',
+        },
+      }
+  组件中通过逻辑的判断，来决定是dispatch哪个action，
+  如果增加就走的type为add的action，如果是更改就走change，
+  触发的action对象类型都是一样的，只是reducer
+
+*/
+
 export const CHANGE_LANGUAGE = 'change_language'
 export const ADD_LANGUAGE = 'add_language'
 

@@ -22,6 +22,7 @@ const defaultState: LanguageState = {
  改为 export default fn 这种形式
  */
 const fn = (state = defaultState, action) => {
+
   //! 这里面需要注意, 不要去修改原来的state
   switch (action.type) {
     case CHANGE_LANGUAGE:
