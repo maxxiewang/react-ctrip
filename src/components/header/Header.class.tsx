@@ -5,7 +5,7 @@ import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 // RouteComponentProps， 路由的typeScrpit定义
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import store from '../../redux/store'
+import store, { RootState } from '../../redux/store'
 import { LanguageState } from '../../redux/language/languageReducer'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next' //! 所以是在这里面引入这个t函数可以，在props里面也可以解构这个t函数
@@ -13,9 +13,18 @@ import {
   changeLanguageActionCreator,
   addLanguageActionCreator,
 } from '../../redux/language/languageActions'
+//! 本质上也是一个高阶函数，把store的部分数据与dispatch方法跟组件连接起来。
+import { connect } from 'react-redux'
 
 // 定义组件state的接口，利用接口继承，保留(组件继承的方法会深度绑定store的类型，有利有弊)
 interface State extends LanguageState {}
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    language: state.language,
+    languageList: state.languageList,
+  }
+}
 
 //! 注意这个范型写法
 class HeaderComponent extends Component<
@@ -136,4 +145,13 @@ class HeaderComponent extends Component<
     )
   }
 }
-export const Header = withTranslation()(withRouter(HeaderComponent))
+//! 第一()传入store的连接数据，第二个()就是组件本身
+//! 目的就是把store与header组件连接起来
+/* 
+  connect函数中传入两个参数 mapStateToProps, mapDispatchToProps,
+  两个函数分别连接的是state与Action的dispatch方法，
+  他们所连接的对像都可以绑定在props属性中，这样在Props里面就可以使用了
+*/
+export const Header = connect(mapStateToProps)(
+  withTranslation()(withRouter(HeaderComponent))
+)
