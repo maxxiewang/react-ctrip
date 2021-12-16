@@ -2,7 +2,7 @@
 import i18n from 'i18next'
 import { CHANGE_LANGUAGE, ADD_LANGUAGE, languageActionTypes } from './languageActions'
 // 在redux中，不管是reducer还是action都是纯函数
-// reducer 就是数据处理的过程
+// reducer指的就是数据处理的过程
 export interface LanguageState {
   language: 'zh' | 'en',
   languageList: { name: string, code: string }[]
@@ -23,7 +23,7 @@ const defaultState: LanguageState = {
  */
 const fn = (state = defaultState, action: languageActionTypes) => {
 
-  //! 这里面需要注意, 不要去修改原来的state
+  //! 这里面需要注意, 不要去修改原来的state, 都是new一个再去返回
   switch (action.type) {
     case CHANGE_LANGUAGE:
       i18n.changeLanguage(action.payload)
