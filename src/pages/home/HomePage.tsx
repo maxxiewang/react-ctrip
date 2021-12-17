@@ -88,7 +88,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage}
-            products={productList[0]}
+            products={productList[0].touristRoutes}
           />
           <ProductCollection
             title={
@@ -97,7 +97,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage2}
-            products={productList[1]}
+            products={productList[1].touristRoutes}
           />
           <ProductCollection
             title={
@@ -106,7 +106,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage3}
-            products={productList[2]}
+            products={productList[2].touristRoutes}
           />
           <div>
             <h3>

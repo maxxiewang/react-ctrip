@@ -14,8 +14,6 @@ export const ProductCollection: React.FC<PropsType> = ({
   sideImage,
   products,
 }) => {
-  console.log('products>>>>', products)
-  const prods = products?.touristRoutes
   return (
     <div className={styles.content}>
       {/* Divider主要就是用于切害页面 */}
