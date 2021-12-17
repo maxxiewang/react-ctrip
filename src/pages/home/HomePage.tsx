@@ -6,8 +6,7 @@ import {
   SideMenu,
   ProductCollection,
 } from '../../components'
-import { Row, Col, Typography } from 'antd'
-import { productList1, productList2, productList3 } from './mockups'
+import { Row, Col, Typography, Spin } from 'antd'
 import sideImage from '../../assets/images/sider_2019_12-09.png'
 import sideImage2 from '../../assets/images/sider_2019_02-04.png'
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
@@ -18,26 +17,57 @@ import { t } from 'i18next'
 
 // 给组件的state定义接口
 interface State {
+  loading: boolean
+  error: string | null
   productList: any[]
 }
 class HomePageComponent extends Component<WithTranslation, State> {
   constructor(props) {
     super(props)
     this.state = {
+      loading: true,
+      error: null,
       productList: [],
     }
   }
   async componentDidMount() {
-    const { data } = await axios.get(
-      'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
-    )
-    this.setState({
-      productList: data.data,
-    })
+    try {
+      const { data } = await axios.get(
+        'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
+      )
+      this.setState({
+        loading: false,
+        productList: data.data,
+      })
+    } catch (error: any) {
+      this.setState({
+        loading: false,
+        error: error.message,
+      })
+    }
   }
   render() {
     // const { t } = this.props
     // console.log('t??', t) // 直接就可以得到这个t函数
+    const { productList, loading, error } = this.state
+    if (loading) {
+      return (
+        <div>
+          <Spin
+            style={{
+              marginTop: 200,
+              marginBottom: 200,
+              margin: '0,auto',
+              width: '100%',
+            }}
+          />
+        </div>
+      )
+    }
+    // 处理网络错误的情况
+    if (error) {
+      return <div>请求错误。。。</div>
+    }
     return (
       <div>
         <Header />
@@ -58,7 +88,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage}
-            products={productList1}
+            products={productList[0]}
           />
           <ProductCollection
             title={
@@ -67,7 +97,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage2}
-            products={productList2}
+            products={productList[1]}
           />
           <ProductCollection
             title={
@@ -76,7 +106,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
               </Typography.Title>
             }
             sideImage={sideImage3}
-            products={productList3}
+            products={productList[2]}
           />
           <div>
             <h3>
@@ -92,8 +122,5 @@ class HomePageComponent extends Component<WithTranslation, State> {
 
 export default HomePageComponent
 
-// 这是一个正常注释
-//? 表求有点疑问
-//todo 这是一个待办
 //! 这里面就是使用with高阶函数来实现语言配置的注入
 export const HomePage = withTranslation()(HomePageComponent)
