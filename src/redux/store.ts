@@ -1,15 +1,25 @@
-import { createStore, combineReducers } from "redux";
-import languageReducer from "./language/languageReducer";
-import recommendProductsReducer from "../pages/recommendProducts/recommendProductsReducer";
+import { createStore , combineReducers} from 'redux'
+import languageReducer from './language/languageReducer'
+import recommendProductsReducer from './recommendProducts/recommendProductsReducer'
+// 在redux中，不管reducer还是action都是纯函数
+// 处理语言状态设置的languageReducer
 
-//! 所有reducer的集合体
+// const store = createStore(languageReducer)
+
+/* 
+  languageState 实际上就是languageReducer的输出类型 
+  使用了类型的反向注入，使用了ReturnType来从范型中获得
+  ReturnType<typeof store.getState>
+*/
+
+// 利用combineReducers函数将两个reducer捆绑起来，然后将捆绑后的保存在本地变量中
 const rootReducer = combineReducers({
-  language: languageReducer,
+  language:languageReducer,
   recommendProducts: recommendProductsReducer
 })
-//todo 不会，这块啊！
-export type RootState = ReturnType<typeof store.getState>
 
 const store = createStore(rootReducer)
+
+export type RootState = ReturnType<typeof store.getState>
 
 export default store

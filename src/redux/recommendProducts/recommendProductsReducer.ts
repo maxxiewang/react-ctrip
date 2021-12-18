@@ -1,17 +1,19 @@
 
 // 确定reducer的输出格式
 interface RecommendProductsState {
-  productList:any[],
-  loading:boolean,
-  error: string|null
+  productList: any[],
+  loading: boolean,
+  error: string | null
 }
 
-const defaultState:RecommendProductsState = {
-  loading:true,
-  error:null,
-  productList:[]
+const defaultState: RecommendProductsState = {
+  loading: true,
+  error: null,
+  productList: []
 }
 
-export default (state = defaultState, action) =>{
+const fn = (state = defaultState, action) => {
   return state
 }
+
+export default fn

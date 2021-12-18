@@ -16,6 +16,13 @@ import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next'
 import { connect } from 'react-redux'
 
+/* 
+  connect函数中传入两个参数 mapStateToProps, mapDispatchToProps,
+  两个函数分别连接的是state与Action的dispatch方法，
+  他们所连接的对像都可以绑定在props属性中，这样在Props里面就可以使用了
+*/
+const mapStateToProps = (state) => {}
+
 // 给组件的state定义接口
 interface State {
   loading: boolean
@@ -124,4 +131,6 @@ class HomePageComponent extends Component<WithTranslation, State> {
 export default HomePageComponent
 
 //! 这里面就是使用with高阶函数来实现语言配置的注入
+//! 所以绑定的这两个函数，一个是state控制数据的流入，一个dispatch控制数据的流出
+
 export const HomePage = connect()(withTranslation()(HomePageComponent))
