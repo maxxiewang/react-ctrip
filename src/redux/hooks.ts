@@ -1,4 +1,5 @@
 import { useSelector as useReduxSelector, TypedUseSelectorHook } from "react-redux";
-import { RootState } from "./stroe";
+import { RootState } from "./store";
 
-export const useSelector:TypedUseSelectorHook<RootState> = useReduxSelector
+//TODO 这个基本就是不会
+export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector

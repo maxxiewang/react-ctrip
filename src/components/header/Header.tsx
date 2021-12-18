@@ -4,38 +4,37 @@ import logo from '../../assets/logo.svg'
 import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router'
-// 从store中连接state数据
+//! useSelector主要还是用于连接store，获得语言与语言列表，（引入自定义的hooks函数，主要是为了TS的类型匹配）
 import { useSelector } from '../../redux/hooks'
-// useDispatch用于分发数据
 import { useDispatch } from 'react-redux'
 import {
-  addLanguageActionCreator,
   changeLanguageActionCreator,
+  addLanguageActionCreator,
 } from '../../redux/language/languageActions'
-
-// 解决函数式组的国际化
+//! 函数式组件的i18n国际和类式组件不一样，但更简单
 import { useTranslation } from 'react-i18next'
 
+/* 
+ 这个分支主要演示的就是7-10将react-redux在函数式组件中的用法，核心就是利用hooks实现
+ store的订阅与action的分发。
+*/
 export const Header: React.FC = () => {
   /* 函数式组中使用hooks传递路由数据 */
   const history = useHistory()
-  // const location = useLocation()
-  // const params = useParams()
-  // const match = useRouteMatch()
-
-  // 注意看这个language的类型
+  //! 注意观察这个RootState加上后的作用，language直接映身为 zh | en
+  //! 使用useSelector是自定义的那个，注意看代码提示
   const language = useSelector((state) => state.language.language)
   const languageList = useSelector((state) => state.language.languageList)
-
-  // 不做dispatch的类型处理，直接使用any类型
+  // useDispatch() 的输出，就是dispatch函数本身。连接着的就是store的分发函数，action就利用这个dispatch函数来分发出去
   const dispatch = useDispatch()
-
   const { t } = useTranslation()
-
-  const menuClickHandler = (e) => {
-    if (e.key === 'new') {
-      dispatch(addLanguageActionCreator('日语', 'Jap'))
+  const changeLanguage = (e) => {
+    if (e.key === 'addLanguage') {
+      // this.props.addLanguage('kr', '韩文')
+      const action = addLanguageActionCreator('kr', '韩文')
+      dispatch(action)
     } else {
+      // this.props.changeLanguage(e.key)
       dispatch(changeLanguageActionCreator(e.key))
     }
   }
@@ -48,22 +47,25 @@ export const Header: React.FC = () => {
           <Dropdown.Button
             style={{ marginLeft: 15 }}
             overlay={
-              <Menu onClick={menuClickHandler}>
+              <Menu onClick={changeLanguage}>
                 {languageList.map((item) => {
                   return <Menu.Item key={item.code}>{item.name}</Menu.Item>
                 })}
-                <Menu.Item key={'new'}>
-                  {t('header.add_new_language')}
-                </Menu.Item>
+                <Menu.Item key={'addLanguage'}>添加新语言</Menu.Item>
               </Menu>
             }
             icon={<GlobalOutlined />}
           >
-            {language === 'zh' ? '中文' : 'Eng'}
+            {language}
           </Dropdown.Button>
           <Button.Group className={styles['button-group']}>
-            <Button onClick={() => history.push('register')}>注册</Button>
-            <Button onClick={() => history.push('signIn')}>登陆</Button>
+            <Button onClick={() => history.push('register')}>
+              {t('header.register')}
+            </Button>
+            <Button onClick={() => history.push('signIn')}>
+              {' '}
+              {t('header.signin')}
+            </Button>
           </Button.Group>
         </div>
       </div>
@@ -84,22 +86,22 @@ export const Header: React.FC = () => {
         />
       </Layout.Header>
       <Menu mode={'horizontal'} className={styles['main-menu']}>
-        <Menu.Item key={1}>{t('header.home_page')}</Menu.Item>
-        <Menu.Item key={2}>{t('header.weekend')}</Menu.Item>
-        <Menu.Item key={3}>{t('header.group')}</Menu.Item>
-        <Menu.Item key="4"> 自由行 </Menu.Item>
-        <Menu.Item key="5"> 私家团 </Menu.Item>
-        <Menu.Item key="6"> 邮轮 </Menu.Item>
-        <Menu.Item key="7"> 酒店+景点 </Menu.Item>
-        <Menu.Item key="8"> 当地玩乐 </Menu.Item>
-        <Menu.Item key="9"> 主题游 </Menu.Item>
-        <Menu.Item key="10"> 定制游 </Menu.Item>
-        <Menu.Item key="11"> 游学 </Menu.Item>
-        <Menu.Item key="12"> 签证 </Menu.Item>
-        <Menu.Item key="13"> 企业游 </Menu.Item>
-        <Menu.Item key="14"> 高端游 </Menu.Item>
-        <Menu.Item key="15"> 爱玩户外 </Menu.Item>
-        <Menu.Item key="16"> 保险 </Menu.Item>
+        <Menu.Item key="1"> {t('header.home_page')} </Menu.Item>
+        <Menu.Item key="2"> {t('header.weekend')} </Menu.Item>
+        <Menu.Item key="3"> {t('header.group')} </Menu.Item>
+        <Menu.Item key="4"> {t('header.backpack')} </Menu.Item>
+        <Menu.Item key="5"> {t('header.private')} </Menu.Item>
+        <Menu.Item key="6"> {t('header.cruise')} </Menu.Item>
+        <Menu.Item key="7"> {t('header.hotel')} </Menu.Item>
+        <Menu.Item key="8"> {t('header.local')} </Menu.Item>
+        <Menu.Item key="9"> {t('header.theme')} </Menu.Item>
+        <Menu.Item key="10"> {t('header.custom')} </Menu.Item>
+        <Menu.Item key="11"> {t('header.study')} </Menu.Item>
+        <Menu.Item key="12"> {t('header.visa')} </Menu.Item>
+        <Menu.Item key="13"> {t('header.enterprise')} </Menu.Item>
+        <Menu.Item key="14"> {t('header.high_end')} </Menu.Item>
+        <Menu.Item key="15"> {t('header.outdoor')} </Menu.Item>
+        <Menu.Item key="16"> {t('header.insurance')} </Menu.Item>
       </Menu>
     </div>
   )

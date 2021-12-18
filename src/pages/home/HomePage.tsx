@@ -7,78 +7,67 @@ import {
   ProductCollection,
 } from '../../components'
 import { Row, Col, Typography, Spin } from 'antd'
-// import { productList1, productList2, productList3 } from './mockups'
 import sideImage from '../../assets/images/sider_2019_12-09.png'
 import sideImage2 from '../../assets/images/sider_2019_02-04.png'
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
 import styles from './HomePage.module.css'
-import { withTranslation, WithTranslation } from 'react-i18next'
 import axios from 'axios'
+import { withTranslation, WithTranslation } from 'react-i18next'
+import { t } from 'i18next'
+import { connect } from 'react-redux'
 
+// 给组件的state定义接口
 interface State {
   loading: boolean
   error: string | null
   productList: any[]
 }
-
 class HomePageComponent extends Component<WithTranslation, State> {
   constructor(props) {
     super(props)
     this.state = {
-      productList: [],
       loading: true,
       error: null,
+      productList: [],
     }
   }
-
   async componentDidMount() {
-    // axios
-    //   .get(
-    //     'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
-    //   )
-    //   .then((res) => {
-    //     console.log('res>>', res.data.data)
-    //     this.setState({
-    //       productList: res.data.data,
-    //     })
-    //   })
     try {
       const { data } = await axios.get(
         'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
       )
       this.setState({
-        productList: data.data,
         loading: false,
-        error: null,
+        productList: data.data,
       })
     } catch (error: any) {
       this.setState({
-        error: error.messsage,
         loading: false,
+        error: error.message,
       })
     }
   }
-
   render() {
-    // 在使用 i18n时，需要先传入i18n的TS定义，即前面的范型WithTranslation
-    // t为一个函数 ， 在模板时，即直接用t()使用
-    const { t } = this.props
+    // const { t } = this.props
+    // console.log('t??', t) // 直接就可以得到这个t函数
     const { productList, loading, error } = this.state
-    // 转菊花
     if (loading) {
       return (
-        <Spin
-          size="large"
-          style={{
-            marginTop: 200,
-            margin: '0 auto',
-            width: '100%',
-          }}
-        />
+        <div>
+          <Spin
+            style={{
+              marginTop: 200,
+              marginBottom: 200,
+              margin: '0,auto',
+              width: '100%',
+            }}
+          />
+        </div>
       )
     }
+    // 处理网络错误的情况
     if (error) {
-      return <div>网络错误</div>
+      return <div>请求错误。。。</div>
     }
     return (
       <div>
@@ -132,4 +121,7 @@ class HomePageComponent extends Component<WithTranslation, State> {
   }
 }
 
-export const HomePage = withTranslation()(HomePageComponent) // 连续两个小括号
+export default HomePageComponent
+
+//! 这里面就是使用with高阶函数来实现语言配置的注入
+export const HomePage = connect()(withTranslation()(HomePageComponent))
