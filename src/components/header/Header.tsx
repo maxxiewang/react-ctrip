@@ -23,8 +23,8 @@ export const Header: React.FC = () => {
   const history = useHistory()
   //! 注意观察这个RootState加上后的作用，language直接映身为 zh | en
   //! 使用useSelector是自定义的那个，注意看代码提示
-  const language = useSelector((state) => state.language)
-  const languageList = useSelector((state) => state.languageList)
+  const language = useSelector((state) => state.language.language)
+  const languageList = useSelector((state) => state.language.languageList)
   // useDispatch() 的输出，就是dispatch函数本身。连接着的就是store的分发函数，action就利用这个dispatch函数来分发出去
   const dispatch = useDispatch()
   const { t } = useTranslation()

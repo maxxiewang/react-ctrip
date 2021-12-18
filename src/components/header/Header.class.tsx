@@ -24,8 +24,8 @@ import { Dispatch } from 'redux'
 // 参数是从store传过来的state, 给这个state加上类型，实现自动联想
 const mapStateToProps = (state: RootState) => {
   return {
-    language: state.language,
-    languageList: state.languageList,
+    language: state.language.language,
+    languageList: state.language.languageList,
   }
 }
 
@@ -60,7 +60,7 @@ class HeaderComponent extends Component<PropsTypes> {
   }
   componentDidMount() {
     store.subscribe(() => {
-      const storeState = store.getState()
+      const storeState = store.getState().language
       this.setState({
         language: storeState.language,
         languageList: storeState.languageList,

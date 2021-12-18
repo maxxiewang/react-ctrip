@@ -14,6 +14,7 @@ import styles from './HomePage.module.css'
 import axios from 'axios'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next'
+import { connect } from 'react-redux'
 
 // 给组件的state定义接口
 interface State {
@@ -123,4 +124,4 @@ class HomePageComponent extends Component<WithTranslation, State> {
 export default HomePageComponent
 
 //! 这里面就是使用with高阶函数来实现语言配置的注入
-export const HomePage = withTranslation()(HomePageComponent)
+export const HomePage = connect()(withTranslation()(HomePageComponent))
