@@ -15,49 +15,60 @@ import axios from 'axios'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next'
 import { connect } from 'react-redux'
+import { RootState } from '../../redux/store'
+import {
+  fetchRecommendProductStartActionCreator,
+  fetchRecommendProductSuccessActionCreator,
+} from '../../redux/recommendProducts/recommendProductsActions'
 
 /* 
   connect函数中传入两个参数 mapStateToProps, mapDispatchToProps,
   两个函数分别连接的是state与Action的dispatch方法，
   他们所连接的对像都可以绑定在props属性中，这样在Props里面就可以使用了
 */
-const mapStateToProps = (state) => {}
-
-// 给组件的state定义接口
-interface State {
-  loading: boolean
-  error: string | null
-  productList: any[]
-}
-class HomePageComponent extends Component<WithTranslation, State> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-      error: null,
-      productList: [],
-    }
+const mapStateToProps = (state: RootState) => {
+  return {
+    loading: state.recommendProducts.loading,
+    error: state.recommendProducts.error,
+    productList: state.recommendProducts.productList,
   }
+}
+// 引入三个action工厂函数，这里面直接return一个对象
+const mapDispatchToProps = (dispatch) => {
+  // 返回类型中，每一个字段，就是一个dispatch处理函数
+  return {
+    fetchStart: () => {
+      dispatch(fetchRecommendProductStartActionCreator())
+    },
+    fetchSuccess: (data) => {
+      // 把这个data传过去作为它的payload
+      dispatch(fetchRecommendProductSuccessActionCreator(data))
+    },
+  }
+}
+
+type PropsType = WithTranslation &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>
+class HomePageComponent extends Component<PropsType> {
   async componentDidMount() {
+    //! 可以和原来的用自己的state对比一下，范型那个PropsType有点难理解，其他还行
+    this.props.fetchStart()
     try {
       const { data } = await axios.get(
         'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
       )
-      this.setState({
-        loading: false,
-        productList: data.data,
-      })
+      this.props.fetchSuccess(data.data)
     } catch (error: any) {
-      this.setState({
-        loading: false,
-        error: error.message,
-      })
+      // 正常这里面对请求失败做一个处理，触发fetchFail这个action，这里暂时忽略
     }
   }
   render() {
     // const { t } = this.props
     // console.log('t??', t) // 直接就可以得到这个t函数
-    const { productList, loading, error } = this.state
+    // const { productList, loading, error } = this.state
+    //! 最后组件就变成了prpos与redux-store进行相关，各组件不需要再维护自己的state
+    const { productList, loading, error } = this.props
     if (loading) {
       return (
         <div>
@@ -133,4 +144,7 @@ export default HomePageComponent
 //! 这里面就是使用with高阶函数来实现语言配置的注入
 //! 所以绑定的这两个函数，一个是state控制数据的流入，一个dispatch控制数据的流出
 
-export const HomePage = connect()(withTranslation()(HomePageComponent))
+export const HomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(HomePageComponent))

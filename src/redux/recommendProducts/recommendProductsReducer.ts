@@ -1,5 +1,6 @@
+import { FETCH_RECOMMEND_PRODUCTS_START, FETCH_RECOMMEND_PRODUCTS_SUCCESS, RecommendProductAction } from './recommendProductsActions'
 
-// 确定reducer的输出格式
+
 interface RecommendProductsState {
   productList: any[],
   loading: boolean,
@@ -7,13 +8,27 @@ interface RecommendProductsState {
 }
 
 const defaultState: RecommendProductsState = {
+  productList: [],
   loading: true,
-  error: null,
-  productList: []
+  error: null
 }
 
-const fn = (state = defaultState, action) => {
-  return state
+const fn = (state = defaultState, action: RecommendProductAction) => {
+  switch (action.type) {
+    case FETCH_RECOMMEND_PRODUCTS_START:
+      //第一start只修改loading的状态，其他保持不变
+      return {
+        ...state, loading: true
+      }
+    case FETCH_RECOMMEND_PRODUCTS_SUCCESS:
+      return {
+        // productList的数据即是那个payload
+        ...state, loading: false, productList: action.payload
+      }
+    default:
+      return state;
+  }
+
 }
 
 export default fn

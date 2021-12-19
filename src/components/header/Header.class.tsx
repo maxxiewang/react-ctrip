@@ -5,7 +5,7 @@ import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 // RouteComponentProps， 路由的typeScrpit定义
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import store, { RootState } from '../../redux/store1'
+import store, { RootState } from '../../redux/store'
 // import { LanguageState } from '../../redux/language/languageReducer'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next' //! 所以是在这里面引入这个t函数可以，在props里面也可以解构这个t函数
@@ -30,7 +30,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
-  // 反回类型中，每一个字段，就是一个dispatch处理函数
+  // 返回类型中，每一个字段，就是一个dispatch处理函数
   return {
     changeLanguage: (code: 'zh' | 'en') => {
       const action = changeLanguageActionCreator(code)

@@ -1,34 +1,39 @@
+//* 首先考虑一下action的类型
 
-// 1、API请求开始的action, 表示正在调用API信息
-export const FETCH_RECOMMEND_PRODUCTS_START = 
-"FETCH_RECOMMEND_PRODUCTS_START" // 正在调用推荐信息api
+export const FETCH_RECOMMEND_PRODUCTS_START =
+  "FETCH_RECOMMEND_PRODUCTS_START" // 正在调用API
 
-export const FETCH_RECOMMEND_PRODUCTS_SUCCESS = 
-"FETCH_RECOMMEND_PRODUCTS_SUCCESS" // 推荐信息api调用成功
+export const FETCH_RECOMMEND_PRODUCTS_SUCCESS =
+  'FETCH_RECOMMEND_PRODUCTS_SUCCESS' // 调用成功
 
-export const FETCH_RECOMMEND_PRODUCTS_FAIL = 
-"FETCH_RECOMMEND_PRODUCTS_FAIL"  // 推荐信息api调用失败
+export const FETCH_RECOMMEND_PRODUCTS_FAIL =
+  'FETCH_RECOMMEND_PRODUCTS_FAIL'   // 调用失败
 
 interface FetchRecommendProductStartAction {
-  type: typeof FETCH_RECOMMEND_PRODUCTS_START
-}
-interface FetchRecommendProductSuccessAction {
-  type: typeof FETCH_RECOMMEND_PRODUCTS_SUCCESS
-  payload: any []
-}
-interface FetchRecommendProductFailAction{
-  type: typeof FETCH_RECOMMEND_PRODUCTS_FAIL
+  type: typeof FETCH_RECOMMEND_PRODUCTS_START,
   payload: any
 }
 
-// 混合一下，作为输出action的总类型
-export type RecommendProductAction = 
-FetchRecommendProductStartAction|
-FetchRecommendProductSuccessAction|
-FetchRecommendProductFailAction
+interface FetchRecommendProductSuccessAction {
+  type: typeof FETCH_RECOMMEND_PRODUCTS_SUCCESS
+  payload: any
+}
 
-export const fetchRecommendProductStartAction = ():FetchRecommendProductStartAction=>{
+//* 输出混合类型的总类型，方便在reducer中使用
+export type RecommendProductAction = FetchRecommendProductStartAction | FetchRecommendProductSuccessAction
+
+
+// action的创建工厂
+export const fetchRecommendProductStartActionCreator = (): FetchRecommendProductStartAction => {
   return {
-    type:FETCH_RECOMMEND_PRODUCTS_START
+    type: FETCH_RECOMMEND_PRODUCTS_START,
+    payload: []
+  }
+}
+//! 这个data参数就是API成功返回后的数据
+export const fetchRecommendProductSuccessActionCreator = (data): FetchRecommendProductSuccessAction => {
+  return {
+    type: FETCH_RECOMMEND_PRODUCTS_SUCCESS,
+    payload: data
   }
 }
