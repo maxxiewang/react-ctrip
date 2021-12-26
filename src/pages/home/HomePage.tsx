@@ -19,6 +19,7 @@ import { RootState } from '../../redux/store'
 import {
   fetchRecommendProductStartActionCreator,
   fetchRecommendProductSuccessActionCreator,
+  fetchRecommendProductFailActionCreator,
 } from '../../redux/recommendProducts/recommendProductsActions'
 
 /* 
@@ -44,6 +45,9 @@ const mapDispatchToProps = (dispatch) => {
       // 把这个data传过去作为它的payload
       dispatch(fetchRecommendProductSuccessActionCreator(data))
     },
+    fetchFail: (error) => {
+      dispatch(fetchRecommendProductFailActionCreator(error))
+    },
   }
 }
 
@@ -60,7 +64,7 @@ class HomePageComponent extends Component<PropsType> {
       )
       this.props.fetchSuccess(data.data)
     } catch (error: any) {
-      // 正常这里面对请求失败做一个处理，触发fetchFail这个action，这里暂时忽略
+      this.props.fetchFail(error.message)
     }
   }
   render() {

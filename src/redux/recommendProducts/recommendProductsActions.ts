@@ -19,8 +19,13 @@ interface FetchRecommendProductSuccessAction {
   payload: any
 }
 
+interface FetchRecommendProductFailAction {
+  type: typeof FETCH_RECOMMEND_PRODUCTS_FAIL
+  payload: any
+}
+
 //* 输出混合类型的总类型，方便在reducer中使用
-export type RecommendProductAction = FetchRecommendProductStartAction | FetchRecommendProductSuccessAction
+export type RecommendProductAction = FetchRecommendProductStartAction | FetchRecommendProductSuccessAction | FetchRecommendProductFailAction
 
 
 // action的创建工厂
@@ -35,5 +40,12 @@ export const fetchRecommendProductSuccessActionCreator = (data): FetchRecommendP
   return {
     type: FETCH_RECOMMEND_PRODUCTS_SUCCESS,
     payload: data
+  }
+}
+
+export const fetchRecommendProductFailActionCreator = (error): FetchRecommendProductFailAction => {
+  return {
+    type: FETCH_RECOMMEND_PRODUCTS_FAIL,
+    payload: error
   }
 }

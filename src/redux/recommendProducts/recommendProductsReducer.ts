@@ -1,4 +1,4 @@
-import { FETCH_RECOMMEND_PRODUCTS_START, FETCH_RECOMMEND_PRODUCTS_SUCCESS, RecommendProductAction } from './recommendProductsActions'
+import { FETCH_RECOMMEND_PRODUCTS_START, FETCH_RECOMMEND_PRODUCTS_SUCCESS, FETCH_RECOMMEND_PRODUCTS_FAIL, RecommendProductAction } from './recommendProductsActions'
 
 
 interface RecommendProductsState {
@@ -24,6 +24,10 @@ const fn = (state = defaultState, action: RecommendProductAction) => {
       return {
         // productList的数据即是那个payload
         ...state, loading: false, productList: action.payload
+      }
+    case FETCH_RECOMMEND_PRODUCTS_FAIL:
+      return {
+        ...state, loading: false, error: action.payload
       }
     default:
       return state;

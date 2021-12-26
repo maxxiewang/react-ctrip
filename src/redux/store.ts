@@ -1,8 +1,8 @@
-import { createStore , combineReducers} from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import languageReducer from './language/languageReducer'
 import recommendProductsReducer from './recommendProducts/recommendProductsReducer'
+import thunk from 'redux-thunk'
 // 在redux中，不管reducer还是action都是纯函数
-// 处理语言状态设置的languageReducer
 
 // const store = createStore(languageReducer)
 
@@ -12,14 +12,16 @@ import recommendProductsReducer from './recommendProducts/recommendProductsReduc
   ReturnType<typeof store.getState>
 */
 
-// 利用combineReducers函数将两个reducer捆绑起来，然后将捆绑后的保存在本地变量中
+//! 利用combineReducers函数将两个reducer捆绑起来，然后将捆绑后的保存在本地变量中
 const rootReducer = combineReducers({
-  language:languageReducer,
+  language: languageReducer,
   recommendProducts: recommendProductsReducer
 })
 
-const store = createStore(rootReducer)
+// applyMiddleware(thunk)用于异步中间件
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
+//! 注意观察这个RootState的类型
 export type RootState = ReturnType<typeof store.getState>
 
 export default store
