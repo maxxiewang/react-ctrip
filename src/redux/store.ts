@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import languageReducer from './language/languageReducer'
 import recommendProductsReducer from './recommendProducts/recommendProductsReducer'
 import thunk from 'redux-thunk'
+import { actionLog } from './middlewares/actionLog'
 // 在redux中，不管reducer还是action都是纯函数
 
 // const store = createStore(languageReducer)
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
 })
 
 // applyMiddleware(thunk)用于异步中间件
-const store = createStore(rootReducer, applyMiddleware(thunk))
+// actionLog当作第二个参数传入
+const store = createStore(rootReducer, applyMiddleware(thunk, actionLog))
 
 //! 注意观察这个RootState的类型
 export type RootState = ReturnType<typeof store.getState>

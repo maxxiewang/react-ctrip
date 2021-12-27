@@ -11,17 +11,11 @@ import sideImage from '../../assets/images/sider_2019_12-09.png'
 import sideImage2 from '../../assets/images/sider_2019_02-04.png'
 import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
 import styles from './HomePage.module.css'
-import axios from 'axios'
 import { withTranslation, WithTranslation } from 'react-i18next'
 import { t } from 'i18next'
 import { connect } from 'react-redux'
 import { RootState } from '../../redux/store'
-import {
-  fetchRecommendProductStartActionCreator,
-  fetchRecommendProductSuccessActionCreator,
-  fetchRecommendProductFailActionCreator,
-  getDataActionCreator,
-} from '../../redux/recommendProducts/recommendProductsActions'
+import { getDataActionCreator } from '../../redux/recommendProducts/recommendProductsActions'
 
 /* 
   connect函数中传入两个参数 mapStateToProps, mapDispatchToProps,
@@ -39,16 +33,6 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch) => {
   // 返回类型中，每一个字段，就是一个dispatch处理函数
   return {
-    fetchStart: () => {
-      dispatch(fetchRecommendProductStartActionCreator())
-    },
-    fetchSuccess: (data) => {
-      // 把这个data传过去作为它的payload
-      dispatch(fetchRecommendProductSuccessActionCreator(data))
-    },
-    fetchFail: (error) => {
-      dispatch(fetchRecommendProductFailActionCreator(error))
-    },
     getData: () => {
       dispatch(getDataActionCreator())
     },
@@ -59,9 +43,9 @@ type PropsType = WithTranslation &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>
 class HomePageComponent extends Component<PropsType> {
-  async componentDidMount() {
+  componentDidMount() {
     //! 可以和原来的用自己的state对比一下，范型那个PropsType有点难理解，其他还行
-    dispatch(getData())
+    this.props.getData()
   }
   render() {
     // const { t } = this.props

@@ -55,6 +55,10 @@ export const fetchRecommendProductFailActionCreator = (error): FetchRecommendPro
 
 //! thunk的作用就是让dispatch多支持一种类型：函数类型，返回对像不只是一个action，而是一个函数
 //! 这个函数的类型，就是thunk的action类型。ThunkAction定义比较复杂
+
+/*  thunk 可以返回一个函数，而不一定是js对象。
+    在一个thunk action中可以完成一系列连续的action操作，并且可以处理异步逻辑。业务逻辑可以从ui层面挪到这里，代码分层会更清晰。
+*/
 export const getDataActionCreator = (): ThunkAction<void, RootState, unknown, RecommendProductAction> =>
   async (dispatch, getState) => {
     dispatch(fetchRecommendProductStartActionCreator())
@@ -62,7 +66,7 @@ export const getDataActionCreator = (): ThunkAction<void, RootState, unknown, Re
       const { data } = await axios.get(
         'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
       )
-      dispatch(fetchRecommendProductSuccessActionCreator(data))
+      dispatch(fetchRecommendProductSuccessActionCreator(data.data))
     } catch (error: any) {
       dispatch(fetchRecommendProductFailActionCreator(error.essage))
     }
