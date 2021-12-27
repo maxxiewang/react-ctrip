@@ -20,6 +20,7 @@ import {
   fetchRecommendProductStartActionCreator,
   fetchRecommendProductSuccessActionCreator,
   fetchRecommendProductFailActionCreator,
+  getDataActionCreator,
 } from '../../redux/recommendProducts/recommendProductsActions'
 
 /* 
@@ -48,6 +49,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchFail: (error) => {
       dispatch(fetchRecommendProductFailActionCreator(error))
     },
+    getData: () => {
+      dispatch(getDataActionCreator())
+    },
   }
 }
 
@@ -57,15 +61,7 @@ type PropsType = WithTranslation &
 class HomePageComponent extends Component<PropsType> {
   async componentDidMount() {
     //! 可以和原来的用自己的state对比一下，范型那个PropsType有点难理解，其他还行
-    this.props.fetchStart()
-    try {
-      const { data } = await axios.get(
-        'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
-      )
-      this.props.fetchSuccess(data.data)
-    } catch (error: any) {
-      this.props.fetchFail(error.message)
-    }
+    dispatch(getData())
   }
   render() {
     // const { t } = this.props

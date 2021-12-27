@@ -1,3 +1,6 @@
+import { ThunkAction } from "redux-thunk"
+import { RootState } from "../store"
+import axios from "axios"
 //* 首先考虑一下action的类型
 
 export const FETCH_RECOMMEND_PRODUCTS_START =
@@ -49,3 +52,18 @@ export const fetchRecommendProductFailActionCreator = (error): FetchRecommendPro
     payload: error
   }
 }
+
+//! thunk的作用就是让dispatch多支持一种类型：函数类型，返回对像不只是一个action，而是一个函数
+//! 这个函数的类型，就是thunk的action类型。ThunkAction定义比较复杂
+export const getDataActionCreator = (): ThunkAction<void, RootState, unknown, RecommendProductAction> =>
+  async (dispatch, getState) => {
+    dispatch(fetchRecommendProductStartActionCreator())
+    try {
+      const { data } = await axios.get(
+        'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
+      )
+      dispatch(fetchRecommendProductSuccessActionCreator(data))
+    } catch (error: any) {
+      dispatch(fetchRecommendProductFailActionCreator(error.essage))
+    }
+  }
