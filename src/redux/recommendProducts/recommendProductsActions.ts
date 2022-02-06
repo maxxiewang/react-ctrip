@@ -64,9 +64,10 @@ export const getDataActionCreator = (): ThunkAction<void, RootState, unknown, Re
     dispatch(fetchRecommendProductStartActionCreator())
     try {
       const { data } = await axios.get(
-        'https://mock.mengxuegu.com/mock/61a78040c6b34465f53db98f/reactTrip/api/productCollections'
+        "http://123.56.149.216:8080/api/productCollections"
       )
-      dispatch(fetchRecommendProductSuccessActionCreator(data.data))
+      console.log('data>>>', data)
+      dispatch(fetchRecommendProductSuccessActionCreator(data))
     } catch (error: any) {
       dispatch(fetchRecommendProductFailActionCreator(error.essage))
     }

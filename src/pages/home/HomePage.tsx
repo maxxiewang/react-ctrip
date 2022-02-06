@@ -76,7 +76,7 @@ class HomePageComponent extends Component<PropsType> {
         <Header />
         {/* 页面内容 */}
         <div className={styles['page-content']}>
-          <Row style={{ marginTop: 10 }}>
+          <Row style={{ marginTop: 20 }}>
             <Col span={6}>
               <SideMenu />
             </Col>

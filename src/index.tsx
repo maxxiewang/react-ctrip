@@ -8,6 +8,9 @@ import './i18n/configs'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 //这样redux-stroe可以在全局范围内使用了
+import axios from 'axios'
+
+axios.defaults.headers['x-icode'] = '97A353F65C796EE2'
 
 ReactDOM.render(
   <React.StrictMode>
