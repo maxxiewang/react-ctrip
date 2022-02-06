@@ -39,3 +39,5 @@ const ProductIntro: React.FC<PropsType> = ({
     </div>
   )
 }
+
+export default ProductIntro
