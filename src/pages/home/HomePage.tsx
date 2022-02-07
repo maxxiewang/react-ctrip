@@ -16,7 +16,7 @@ import { t } from 'i18next'
 import { connect } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { getDataActionCreator } from '../../redux/recommendProducts/recommendProductsActions'
-
+import { MainLayout } from '../../layouts/mainLayout'
 /* 
   connect函数中传入两个参数 mapStateToProps, mapDispatchToProps,
   两个函数分别连接的是state与Action的dispatch方法，
@@ -72,8 +72,7 @@ class HomePageComponent extends Component<PropsType> {
       return <div>请求错误。。。</div>
     }
     return (
-      <div>
-        <Header />
+      <MainLayout>
         {/* 页面内容 */}
         <div className={styles['page-content']}>
           <Row style={{ marginTop: 20 }}>
@@ -117,8 +116,7 @@ class HomePageComponent extends Component<PropsType> {
             </h3>
           </div>
         </div>
-        <Footer />
-      </div>
+      </MainLayout>
     )
   }
 }

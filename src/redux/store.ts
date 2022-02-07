@@ -4,8 +4,10 @@ import recommendProductsReducer from './recommendProducts/recommendProductsReduc
 import thunk from 'redux-thunk'
 import { actionLog } from './middlewares/actionLog'
 import { ProductDetailSlice } from './productDetail/slice'
+import { ProductSearchSlice } from './productSearch/slice'
 //! 这个combineReducers和redux的combinReducrs是无缝连接的，并支持处理sliceReducers
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+
 // 在redux中，不管reducer还是action都是纯函数
 
 // const store = createStore(languageReducer)
@@ -20,13 +22,19 @@ import { combineReducers } from '@reduxjs/toolkit'
 const rootReducer = combineReducers({
   language: languageReducer,
   recommendProducts: recommendProductsReducer,
-  productDetail: ProductDetailSlice.reducer
+  productDetail: ProductDetailSlice.reducer,
+  productSearch: ProductSearchSlice.reducer
 })
 
 // applyMiddleware(thunk)用于异步中间件
 // actionLog当作第二个参数传入
-const store = createStore(rootReducer, applyMiddleware(thunk, actionLog))
-
+// const store = createStore(rootReducer, applyMiddleware(thunk, actionLog))
+const store = configureStore({
+  reducer: rootReducer,
+  // RTK默认提供的中间件，所以不能直接重写
+  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), actionLog],
+  devTools: true
+})
 //! 注意观察这个RootState的类型
 export type RootState = ReturnType<typeof store.getState>
 

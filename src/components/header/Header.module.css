@@ -56,6 +56,10 @@
   line-height: 64px !important;
   display: inline;
   color: #03a9f4 !important;
+  cursor: pointer;
+}
+.title:hover {
+  color: #f33a0c !important;
 }
 
 .search-input {

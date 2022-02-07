@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
       {/* top-header */}
       <div className={styles['top-header']}>
         <div className={styles.inner}>
-          <Typography.Text>Make travel better</Typography.Text>
+          <Typography.Text>啊~象牙山</Typography.Text>
           <Dropdown.Button
             style={{ marginLeft: 15 }}
             overlay={
@@ -59,10 +59,10 @@ export const Header: React.FC = () => {
             {language}
           </Dropdown.Button>
           <Button.Group className={styles['button-group']}>
-            <Button onClick={() => history.push('register')}>
+            <Button onClick={() => history.push('/register')}>
               {t('header.register')}
             </Button>
-            <Button onClick={() => history.push('signIn')}>
+            <Button onClick={() => history.push('/signIn')}>
               {' '}
               {t('header.signin')}
             </Button>
@@ -83,6 +83,7 @@ export const Header: React.FC = () => {
         <Input.Search
           placeholder={'请输入旅游目的地、主题、或关键字'}
           className={styles['search-input']}
+          onSearch={(keywords) => history.push('/search/' + keywords)}
         />
       </Layout.Header>
       <Menu mode={'horizontal'} className={styles['main-menu']}>

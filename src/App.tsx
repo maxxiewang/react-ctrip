@@ -1,7 +1,7 @@
-import React from 'react';
-import styles from "./App.module.css";
+import React from 'react'
+import styles from './App.module.css'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { HomePage,SignInPage,Register,DetailPage } from './pages'
+import { HomePage, SignInPage, Register, DetailPage, SearchPage } from './pages'
 
 function App() {
   /* 
@@ -14,16 +14,19 @@ function App() {
   return (
     <div className={styles.App}>
       <BrowserRouter>
-        <Switch>      
-          <Route path='/' exact component={HomePage} />{/* exact 精准匹配，短路处理 */}
-          <Route path='/signIn' component={SignInPage}/>
-          <Route path='/register' component={Register}/>
-          <Route path='/detail/:touristRouteId' component={DetailPage}/>
-          <Route render={()=><h1>404 not found 页面去火星了！</h1>}/>{/* 404页面的写法，永远是最后一个 */}
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          {/* exact 精准匹配，短路处理 */}
+          <Route path="/signIn" component={SignInPage} />
+          <Route path="/register" component={Register} />
+          <Route path="/detail/:touristRouteId" component={DetailPage} />
+          <Route path="/search/:keywords?" component={SearchPage} />
+          <Route render={() => <h1>404 not found 页面去火星了！</h1>} />
+          {/* 404页面的写法，永远是最后一个 */}
         </Switch>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
