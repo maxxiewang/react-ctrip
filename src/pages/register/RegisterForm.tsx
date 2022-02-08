@@ -26,6 +26,7 @@ export const RegisterForm = () => {
         }
       )
       // console.log('result', result)
+      //! 直接引用的是useHistory这个api
       history.push('/signIn/')
     } catch (error) {
       alert('注册失败！')
