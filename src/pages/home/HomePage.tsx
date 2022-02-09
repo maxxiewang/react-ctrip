@@ -67,7 +67,6 @@ class HomePageComponent extends Component<PropsType> {
         </div>
       )
     }
-    // 处理网络错误的情况
     if (error) {
       return <div>请求错误。。。</div>
     }
