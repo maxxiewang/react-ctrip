@@ -10,7 +10,7 @@ import store from './redux/store'
 //这样redux-stroe可以在全局范围内使用了
 import axios from 'axios'
 
-axios.defaults.headers['x-icode'] = '97A353F65C796EE2'
+axios.defaults.headers['x-icode'] = 'D3A793E1C19D1147'
 
 ReactDOM.render(
   <React.StrictMode>
