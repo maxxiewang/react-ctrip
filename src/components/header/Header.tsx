@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './Header.module.css'
 import logo from '../../assets/logo.svg'
 import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd'
@@ -13,6 +13,13 @@ import {
 } from '../../redux/language/languageActions'
 //! 函数式组件的i18n国际和类式组件不一样，但更简单
 import { useTranslation } from 'react-i18next'
+import jwt_decode, { JwtPayload as DefaultJwtPayload } from 'jwt-decode'
+import { userlSlice } from '../../redux/user/slice'
+
+//* 定义自己的jwt类型接口
+interface JwtPayload extends DefaultJwtPayload {
+  username: string
+}
 
 /* 
  这个分支主要演示的就是7-10将react-redux在函数式组件中的用法，核心就是利用hooks实现
@@ -25,6 +32,16 @@ export const Header: React.FC = () => {
   //! 使用useSelector是自定义的那个，注意看代码提示
   const language = useSelector((state) => state.language.language)
   const languageList = useSelector((state) => state.language.languageList)
+  const jwt = useSelector((state) => state.user.token)
+
+  const [username, setUsername] = useState('')
+  useEffect(() => {
+    if (jwt) {
+      const token = jwt_decode<JwtPayload>(jwt)
+      console.log('token>>>>>>>>>>>>', token)
+      setUsername(token.username)
+    }
+  }, [jwt])
   // useDispatch() 的输出，就是dispatch函数本身。连接着的就是store的分发函数，action就利用这个dispatch函数来分发出去
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -37,6 +54,12 @@ export const Header: React.FC = () => {
       // this.props.changeLanguage(e.key)
       dispatch(changeLanguageActionCreator(e.key))
     }
+  }
+  const onLogout = () => {
+    console.log('触发了onLogout')
+    dispatch(userlSlice.actions.logout())
+    history.push('/')
+    window.location.reload() // 可加可不加
   }
   return (
     <div className={styles['app-header']}>
@@ -58,15 +81,24 @@ export const Header: React.FC = () => {
           >
             {language}
           </Dropdown.Button>
-          <Button.Group className={styles['button-group']}>
-            <Button onClick={() => history.push('/register')}>
-              {t('header.register')}
-            </Button>
-            <Button onClick={() => history.push('/signIn')}>
-              {' '}
-              {t('header.signin')}
-            </Button>
-          </Button.Group>
+          {jwt ? (
+            <Button.Group className={styles['button-group']}>
+              <span>{t('header.welcome')}</span>
+              <Typography.Text strong>{username}</Typography.Text>
+              <Button>{t('header.shoppingCart')}</Button>
+              <Button onClick={onLogout}>{t('header.signOut')}</Button>
+            </Button.Group>
+          ) : (
+            <Button.Group className={styles['button-group']}>
+              <Button onClick={() => history.push('/register')}>
+                {t('header.register')}
+              </Button>
+              <Button onClick={() => history.push('/signIn')}>
+                {' '}
+                {t('header.signin')}
+              </Button>
+            </Button.Group>
+          )}
         </div>
       </div>
       <Layout.Header className={styles['main-header']}>
