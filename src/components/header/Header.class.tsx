@@ -59,8 +59,8 @@ class HeaderComponent extends Component<PropsTypes> {
     }
   }
   componentDidMount() {
-    store.subscribe(() => {
-      const storeState = store.getState().language
+    store.store.subscribe(() => {
+      const storeState = store.store.getState().language
       this.setState({
         language: storeState.language,
         languageList: storeState.languageList,

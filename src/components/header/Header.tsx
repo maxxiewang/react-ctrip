@@ -59,7 +59,6 @@ export const Header: React.FC = () => {
     console.log('触发了onLogout')
     dispatch(userlSlice.actions.logout())
     history.push('/')
-    window.location.reload() // 可加可不加
   }
   return (
     <div className={styles['app-header']}>
