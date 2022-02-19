@@ -5,6 +5,7 @@ import thunk from 'redux-thunk'
 import { actionLog } from './middlewares/actionLog'
 import { ProductDetailSlice } from './productDetail/slice'
 import { ProductSearchSlice } from './productSearch/slice'
+import { shoppingCartSlice } from './shoppingCart/slice'
 import { userlSlice } from './user/slice'
 //! 这个combineReducers和redux的combinReducrs是无缝连接的，并支持处理sliceReducers
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
   recommendProducts: recommendProductsReducer,
   productDetail: ProductDetailSlice.reducer,
   productSearch: ProductSearchSlice.reducer,
-  user: userlSlice.reducer
+  user: userlSlice.reducer,
+  shoppingCart: shoppingCartSlice.reducer
 })
 
 // 最后目的即是利用persistReducer创建一个基于localStorage的Reducer
@@ -44,7 +46,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
   reducer: persistedReducer, // 替换rootReducer
   // RTK默认提供的中间件，所以不能直接重写
-  // serializableCheck: false 解决报错问题
   middleware: (getDefaultMiddleware) => [...getDefaultMiddleware({ serializableCheck: false }), actionLog],
   devTools: true
 })

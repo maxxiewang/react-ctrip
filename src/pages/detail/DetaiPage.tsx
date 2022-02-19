@@ -3,7 +3,7 @@ import { RouteComponentProps, useParams } from 'react-router-dom'
 import { Spin, Row, Col, Divider, Typography, Anchor, Menu } from 'antd'
 import styles from './DetaiPage.module.css'
 import { Header, Footer, ProductIntro, ProductComments } from '../../components'
-import { DatePicker, Space } from 'antd'
+import { DatePicker, Space, Button } from 'antd'
 import { commentMockData } from './mockup'
 import {
   ProductDetailSlice,
@@ -12,6 +12,8 @@ import {
 import { useSelector } from '../../redux/hooks'
 import { useDispatch } from 'react-redux'
 import { MainLayout } from '../../layouts/mainLayout'
+import { ShoppingCartOutlined } from '@ant-design/icons'
+import { addShoppingCartItem } from '../../redux/shoppingCart/slice'
 const { RangePicker } = DatePicker
 
 interface MatchParams {
@@ -26,7 +28,8 @@ export const DetailPage: React.FC<RouteComponentProps<MatchParams>> = () => {
   const loading = useSelector((state) => state.productDetail.loading)
   const error = useSelector((state) => state.productDetail.error)
   const product = useSelector((state) => state.productDetail.data)
-
+  const jwt = useSelector((s) => s.user.token) as string
+  const shoppingCartLoading = useSelector((s) => s.shoppingCart.loading)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -82,6 +85,23 @@ export const DetailPage: React.FC<RouteComponentProps<MatchParams>> = () => {
               />
             </Col>
             <Col span={11}>
+              <Button
+                style={{ marginTop: 50, marginBottom: 30, display: 'block' }}
+                type="primary"
+                danger
+                loading={shoppingCartLoading}
+                onClick={() => {
+                  dispatch(
+                    addShoppingCartItem({
+                      jwt,
+                      touristRouteId: product.id,
+                    })
+                  )
+                }}
+              >
+                <ShoppingCartOutlined />
+                放入购物车
+              </Button>
               <RangePicker open style={{ marginTop: 20 }} />
             </Col>
           </Row>
