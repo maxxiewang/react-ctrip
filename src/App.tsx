@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './App.module.css'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import {
@@ -8,10 +8,13 @@ import {
   DetailPage,
   SearchPage,
   ShoppingCart,
+  PlaceOrder,
 } from './pages'
 //! 私有路由系统
 import { Redirect } from 'react-router-dom'
 import { useSelector } from './redux/hooks'
+import { useDispatch } from 'react-redux'
+import { getShoppingCart } from './redux/shoppingCart/slice'
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
   const routeComponent = (props) => {
@@ -26,6 +29,13 @@ const PrivateRoute = ({ component, isAuthenticated, ...rest }) => {
 
 function App() {
   const jwt = useSelector((s) => s.user.token)
+  const dispatch = useDispatch()
+  // 通过jwt的变化来判断是否需要执行副作用
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getShoppingCart(jwt))
+    }
+  }, [jwt])
   /* 
     一般的React路由套路就是，BrowserRouter + Switch + Route三件套
     react-router默认情况下页面堆叠而不是页面切换，所以需要Switch组件
@@ -47,6 +57,11 @@ function App() {
           <PrivateRoute
             path="/shoppingCart"
             component={ShoppingCart}
+            isAuthenticated={jwt !== null}
+          />
+          <PrivateRoute
+            path="/placeOrder"
+            component={PlaceOrder}
             isAuthenticated={jwt !== null}
           />
           <Route render={() => <h1>404 not found 页面去火星了！</h1>} />
